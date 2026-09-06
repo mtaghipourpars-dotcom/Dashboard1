@@ -1,0 +1,57 @@
+/* Iranian Sans & IRANSans Web Font */
+@font-face {
+	font-family: 'Iranian Sans';
+	src: url('/fonts/IranianSansRegular.ttf') format('truetype'),
+	     url('/fonts/iranian-sans.ttf') format('truetype'),
+	     url('/fonts/IRANSans-web.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Iranian Sans';
+	src: url('/fonts/IranianSansBold.ttf') format('truetype'),
+	     url('/fonts/iranian-sans-bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'IranianSans';
+	src: url('/fonts/IranianSansRegular.ttf') format('truetype'),
+	     url('/fonts/iranian-sans.ttf') format('truetype'),
+	     url('/fonts/IRANSans-web.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'IranianSans';
+	src: url('/fonts/IranianSansBold.ttf') format('truetype'),
+	     url('/fonts/iranian-sans-bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'IRANSans';
+	src: url('/fonts/IranianSansRegular.ttf') format('truetype'),
+	     url('/fonts/iranian-sans.ttf') format('truetype'),
+	     url('/fonts/IRANSans-web.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'IRANSans';
+	src: url('/fonts/IranianSansBold.ttf') format('truetype'),
+	     url('/fonts/iranian-sans-bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}

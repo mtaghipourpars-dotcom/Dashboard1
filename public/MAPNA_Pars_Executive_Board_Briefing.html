@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دفترچه توجیهی هیئت مدیره و مدیرعامل — سامانه Mission Control مپنا پارس</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="/fonts/iran-sans.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Iranian Sans';
+      src: url('/fonts/IranianSansRegular.ttf') format('truetype'),
+           url('/fonts/iranian-sans.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    @font-face {
+      font-family: 'Iranian Sans';
+      src: url('/fonts/IranianSansBold.ttf') format('truetype'),
+           url('/fonts/iranian-sans-bold.ttf') format('truetype');
+      font-weight: bold;
+      font-style: normal;
+    }
+    :root {
+      --primary: #1d4ed8;
+      --primary-dark: #1e40af;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --emerald: #059669;
+      --rose: #e11d48;
+      --amber: #d97706;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Iranian Sans', 'IranianSans', 'IRANSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    body {
+      font-family: 'Iranian Sans', 'IranianSans', 'IRANSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.7;
+      padding: 24px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 48px;
+      border-radius: 16px;
+      border: 1px solid var(--slate-200);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    .header {
+      border-bottom: 2px solid var(--slate-200);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eff6ff;
+      color: var(--primary);
+      border: 1px solid #bfdbfe;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--slate-900);
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-top: 32px;
+      margin-bottom: 16px;
+      border-right: 4px solid var(--primary);
+      padding-right: 12px;
+    }
+    h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--slate-800);
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+    p, li {
+      font-size: 14px;
+      color: #334155;
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+    ul, ol {
+      padding-right: 20px;
+      margin-bottom: 16px;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .kpi-card {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .kpi-title {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    .kpi-val {
+      font-size: 22px;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--slate-900);
+    }
+    .kpi-val.danger { color: var(--rose); }
+    .kpi-val.warning { color: var(--amber); }
+    .kpi-val.success { color: var(--emerald); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13px;
+    }
+    th, td {
+      border: 1px solid var(--slate-200);
+      padding: 12px 14px;
+      text-align: right;
+    }
+    th {
+      background-color: var(--slate-100);
+      color: var(--slate-800);
+      font-weight: 700;
+    }
+    tr:nth-child(even) {
+      background-color: var(--slate-50);
+    }
+    .quote-box {
+      background: #eff6ff;
+      border-right: 4px solid var(--primary);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-size: 13.5px;
+      color: #1e3a8a;
+    }
+    .script-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 16px;
+      border-radius: 10px;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+    .btn-print {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-print:hover {
+      background: var(--primary-dark);
+    }
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .btn-print {
+        display: none;
+      }
+      .header {
+        border-bottom: 1px solid #000;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Document Header -->
+    <div class="header">
+      <div>
+        <span class="badge">اسناد راهبردی هیئت مدیره • نسخه ۱.۰ صنعتی</span>
+        <h1>سامانه شبیه‌ساز و پایش تصمیمات مپنا پارس (Mission Control)</h1>
+        <p style="color: #64748b; font-size: 13px; margin: 0;">
+          تحلیل جامع منطق مهندسی، معماری انتشار اثر و سناریوی ارائه به مدیرعامل و هیئت مدیره
+        </p>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <a href="/MAPNA_Pars_Mission_Control_System_Manual.html" class="btn-print" style="background: #0f172a; text-decoration: none;">
+          <span>کتابچه راهنما و معماری جامع ←</span>
+        </a>
+        <button class="btn-print" onclick="window.print()">
+          <span>چاپ / ذخیره به عنوان PDF</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Section 1: Executive Challenge -->
+    <h2>۱. ضرورت استراتژیک سامانه در کارخانجات مپنا پارس</h2>
+    <p>
+      در صنعت ساخت ژنراتورهای سنگین نیروگاهی (نظیر ژنراتورهای ۱۶۰ مگاواتی MGT-70 و ژنراتورهای هیدرو ۲۵۰ مگاوات)، تجهیزات و ماشین‌ابزارهای CNC سنگین کارگاه (نظیر بورینگ پاما، تراش اشکودا و تانک وکیوم VPI) به عنوان <strong>گلوگاه‌های مطلق ظرفیت</strong> عمل می‌کنند.
+    </p>
+    <p>
+      هنگامی که یک توقف اضطراری به علت نقص فنی اسپیندل رخ می‌دهد، خلاء اطلاعاتی میان کارگاه و خزانه‌داری ایجاد می‌شود:
+    </p>
+    <ul>
+      <li><strong>سامانه SAP S/4HANA</strong> وقایع گذشته را ثبت می‌کند (System of Record)، اما توانایی شبیه‌سازی بلادرنگ آینده و پیشنهاد گزینه بهینه را ندارد.</li>
+      <li>تاخیر در تصمیم‌گیری موجب فعال شدن <strong>جریمه‌های سنگین روزانه (Liquidated Damages)</strong> در قراردادهای دولتی و به تعویق افتادن صورت‌وضعیت‌های چند ده میلیارد تومانی می‌شود.</li>
+    </ul>
+
+    <!-- Section 2: Core Numbers in Golden Scenario -->
+    <h2>۲. سناریوی طلایی کارخانجات: خرابی اسپیندل بورینگ CNC پاما</h2>
+    <p>
+      برای دمو در جلسه هیئت مدیره، سناریوی واقعی خرابی هیدرولیک و بلبرینگ‌های دور بالای ماشین بورینگ و فرز سنگین CNC پاما (Speedram 2000) پیاده‌سازی شده است:
+    </p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">توقف دستگاه پاما</div>
+        <div class="kpi-val danger">۲۰ روز</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">تاخیر استاتور جهرم</div>
+        <div class="kpi-val warning">+۲۲ روز</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">جریمه دیرکرد بدون اقدام</div>
+        <div class="kpi-val danger">۹.۹ میلیارد</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">نقدینگی در معرض خطر</div>
+        <div class="kpi-val danger">۴۲ میلیارد</div>
+      </div>
+    </div>
+
+    <!-- Section 3: Behind-The-Scenes Logic -->
+    <h2>۳. منطق پشت صحنه و الگوریتم‌های محاسباتی (Engine Logic)</h2>
+    
+    <h3>۳.۱. گراف دانش کانونیکال ۶ لایه</h3>
+    <p>
+      سامانه با مدل‌سازی گراف جهت‌دار بدون دور (DAG)، رابطه علّی و معلولی را به صورت خودکار ردیابی می‌کند:
+      <br>
+      <code>ماشین پاما (L1) &larr; عملیات فرزکاری استاتور OP-JAH-020 (L2) &larr; سفارش تولید #10084201 (L3) &larr; عنصر ساختار شکست کار WBS جهرم (L4) &larr; مایل‌استون تست FAT و تحویل (L5) &larr; جریان نقدی خزانه‌داری و جریمه (L6)</code>
+    </p>
+
+    <h3>۳.۲. موتور بهینه‌سازی چندمعیاره ۴ گزینه‌ای</h3>
+    <p>
+      شبیه‌ساز به صورت خودکار ۴ سناریوی واکنش صنعتی را ارزیابی و امتیازدهی چندبعدی می‌کند:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>کد</th>
+          <th>عنوان استراتژی مداخله</th>
+          <th>تاخیر نهایی</th>
+          <th>هزینه اقدام</th>
+          <th>کاهش جریمه</th>
+          <th>حکم شورای مدیران</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background-color: #f0fdf4; font-weight: bold;">
+          <td>گزینه ۱</td>
+          <td>برون‌سپاری اضطراری به ماشین‌سازی اراک (گزینه پیشنهادی)</td>
+          <td>۶ روز</td>
+          <td>۱۲.۸ م. ریال</td>
+          <td>۷.۲ م. ریال</td>
+          <td style="color: var(--emerald);">موافقت مشروط (برنده)</td>
+        </tr>
+        <tr>
+          <td>گزینه ۲</td>
+          <td>اضافه‌کاری ۳ شیفته و بازتخصیص بورینگ اشکودا</td>
+          <td>۹ روز</td>
+          <td>۶.۴ م. ریال</td>
+          <td>۵.۸ م. ریال</td>
+          <td>موافق مشروط (رزرو)</td>
+        </tr>
+        <tr>
+          <td>گزینه ۳</td>
+          <td>پذیرش تاخیر کارگاهی و جبران در سیم‌پیچی نهایی</td>
+          <td>۱۹ روز</td>
+          <td>۳.۱ م. ریال</td>
+          <td>۱.۳ م. ریال</td>
+          <td style="color: var(--rose);">رد صلاحیت</td>
+        </tr>
+        <tr>
+          <td>گزینه ۴</td>
+          <td>تقسیم سفارش و ماشین‌کاری موازی</td>
+          <td>۸ روز</td>
+          <td>۹.۲ م. ریال</td>
+          <td>۶.۳ م. ریال</td>
+          <td>رد صلاحیت (ریسک ترافیکی)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="quote-box">
+      <strong>فرمول امتیازدهی چندمعیاره:</strong>
+      <br>
+      امتیاز هر گزینه تابع ۴ متغیر است: زمان (۳۵٪)، هزینه مستقیم (۳۰٪)، نقدینگی خزانه‌داری (۲۵٪) و ضریب ریسک کیفی (۱۰٪). در صورت تغییر پروفایل استراتژیک هیئت مدیره به «بحران نقدینگی»، وزن حفظ جریان نقد به ۴۵٪ ارتقا می‌یابد.
+    </div>
+
+    <!-- Section 4: Virtual Council Stances -->
+    <h2>۴. نقش‌ها و استدلال‌های شورای مجازی مدیران (Virtual Council)</h2>
+    <p>
+      سامانه تعارض منافع دپارتمان‌ها را شبیه‌سازی کرده و پیش‌نویس مصوبه هیئت مدیره را آماده می‌سازد:
+    </p>
+    <ul>
+      <li><strong>معاونت تولید و عملیات:</strong> موافق برون‌سپاری به اراک به منظور جلوگیری از فرسودگی ماشین اشکودا و حفظ ظرفیت سایر خطوط.</li>
+      <li><strong>مدیریت پروژه‌ها (PMO):</strong> اصرار بر کمینه‌سازی تاخیر تحویل جهرم به کمتر از یک هفته جهت حفظ تعهد به کارفرمای نیروگاه.</li>
+      <li><strong>معاونت مالی و اقتصادی:</strong> تاکید بر اینکه هرچند برون‌سپاری ۱۲.۸ میلیارد ریال هزینه دارد، اما از ۹.۹ میلیارد ریال جریمه حتمی جلوگیری کرده و وصول فاکتور ۴۲ میلیارد تومانی را تضمین می‌نماید.</li>
+      <li><strong>مدیریت زنجیره تامین:</strong> موافقت مشروط منوط به استقرار تیم کنترل کیفیت مپنا در کارخانه اراک و صدور مجوز بوژی حمل ترافیکی سنگین.</li>
+      <li><strong>مدیرعامل (CEO):</strong> تایید مصوبه مشروط با امکان اعمال حق وتو و ثبت تصمیم نهایی.</li>
+    </ul>
+
+    <!-- Section 5: Integration with SAP S/4HANA -->
+    <h2>۵. طرح یکپارچه‌سازی با سامانه SAP S/4HANA مپنا</h2>
+    <p>
+      سامانه Mission Control جایگزین SAP نیست، بلکه از طریق رابط‌های مدرن OData v4 و RFC به عنوان مغز تصمیم‌گیرنده روی ۹ جدول کلیدی مپنا قرار می‌گیرد:
+    </p>
+    <ul>
+      <li><code>CRHD / KAKO</code>: استخراج تقویم کاری و ظرفیت ماشین‌آلات (ماژول PP/PM)</li>
+      <li><code>AFVC / PLPO</code>: توالی عملیات‌های روتینگ ساخت ژنراتور (ماژول PP)</li>
+      <li><code>AUFK / AFKO</code>: سفارشات تولید فعال کارخانجات (ماژول PP)</li>
+      <li><code>PRPS / PROJ</code>: ساختار شکست کار WBS و بودجه پروژه‌ها (ماژول PS)</li>
+      <li><code>VBAK / VBAP</code>: قراردادهای فروش و نرخ جرائم دیرکرد (ماژول SD)</li>
+      <li><code>FAGLFLEXA / BSEG</code>: صورت‌وضعیت‌ها و جریان نقدینگی (ماژول FI/CO)</li>
+    </ul>
+
+    <!-- Section 6: Board Presentation Script -->
+    <h2>۶. راهنمای گام‌به‌گام و سناریوی دمو در جلسه هیئت مدیره (Executive Demo Script)</h2>
+    <p>
+      در زمان ارائه در مقابل مدیرعامل و اعضای هیئت مدیره، این ترتیب زمانی و گفتار را رعایت فرمایید:
+    </p>
+
+    <div class="script-box">
+      <strong>گام ۱ (دقیقه ۱ تا ۲) — میز فرماندهی (Cockpit):</strong>
+      <br>
+      صفحه اول را باز کنید و اشاره کنید: «آقای مهندس، سنسورهای کارگاه نشان می‌دهند اسپیندل پاما متوقف است. سامانه محاسبه کرده که بدون مداخله، ۲۲ روز تاخیر، ۱۰ میلیارد تومان جریمه و ۴۲ میلیارد تومان کسری نقدینگی خواهیم داشت.»
+    </div>
+
+    <div class="script-box">
+      <strong>گام ۲ (دقیقه ۳ تا ۵) — گراف انتشار اثرات (Enterprise Graph):</strong>
+      <br>
+      تب گراف را باز کنید و نشان دهید: «ببینید چگونه توقف یک دستگاه، لایه به لایه به عملیات فرز، سفارش ساخت، WBS جهرم و در نهایت به حسابداری مالی سرایت کرده است.»
+    </div>
+
+    <div class="script-box">
+      <strong>گام ۳ (دقیقه ۶ تا ۸) — بسته تصمیم و شورای مدیران (Decision & Council):</strong>
+      <br>
+      تب بسته تصمیم را باز کنید و جدول مقایسه ۴ گزینه را نشان دهید: «بهترین سناریو، برون‌سپاری است که تاخیر را به ۶ روز فشرده می‌کند. شورای مدیران نیز شرایط کیفی و حمل بار را تعیین کرده و اکنون فرم تصویب آماده امضای مدیرعامل محترم است.»
+    </div>
+
+    <div class="script-box">
+      <strong>گام ۴ (دقیقه ۹ تا ۱۰) — شبیه‌ساز شوک (Disruption Simulator):</strong>
+      <br>
+      اسلایدر توقف را تغییر دهید (مثلاً ۳۵ روز) و نشان دهید ارقام جریمه و نقدینگی چگونه به صورت بلادرنگ بازتولید می‌شوند.
+    </div>
+
+    <div style="margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--slate-200); font-size: 12px; color: #64748b; display: flex; justify-content: space-between;">
+      <span>شرکت مهندسی و ساخت ژنراتور مپنا (پارس) • کارخانجات کرج</span>
+      <span>سامانه پایش استراتژیک Mission Control v1.0</span>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 {
-  "name": "Mission Control - MAPNA Pars Generator",
+  "name": "Mission Control v1.0 — MAPNA Pars Generator",
   "description": "Enterprise Resource-Commitment Impact Simulation & Decision Intelligence Platform for MAPNA Pars Generator",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

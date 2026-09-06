@@ -11,7 +11,9 @@ import {
   ArrowRight,
   Database,
   Filter,
-  RefreshCw
+  Shield,
+  Activity,
+  Zap
 } from 'lucide-react';
 import { 
   Language, 
@@ -78,124 +80,110 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
     // Level 1: Resources
     {
       id: 'RES-MCH-BORING-PAMA',
-      label: isFa ? 'بورینگ CNC پاما (Speedram)' : 'PAMA Boring CNC',
+      label: isFa ? 'بورینگ CNC پاما (Speedram 2000)' : 'PAMA Speedram 2000 CNC',
       sub: 'WC-MCH-BORING01',
       level: 1,
       type: 'RESOURCE' as GraphNodeType,
       status: 'DISRUPTED',
       isAffected: true,
-      sap: 'CRHD / KAKO'
+      sap: 'CDS: I_WorkCenterCapacity'
     },
     {
-      id: 'RES-MCH-GANTRY-WALDRICH',
-      label: isFa ? 'فرز دروازه‌ای والدریش کوبورگ' : 'Waldrich Coburg Gantry',
-      sub: 'WC-MCH-GANTRY02',
+      id: 'RES-MCH-LATHE-SKODA',
+      label: isFa ? 'تراش سنگین اشکودا (Skoda Lathe)' : 'Skoda Heavy Lathe',
+      sub: 'WC-MCH-LATHE01',
       level: 1,
       type: 'RESOURCE' as GraphNodeType,
-      status: 'OPERATIONAL',
+      status: 'AVAILABLE',
       isAffected: false,
-      sap: 'CRHD / KAKO'
+      sap: 'CDS: I_WorkCenterCapacity'
     },
     {
-      id: 'RES-VPI-AUTOCLAVE-01',
-      label: isFa ? 'کلاوه اشباع رزین VPI استاتور' : 'VPI Autoclave Plant',
-      sub: 'WC-WND-VPI01',
+      id: 'RES-AUT-VPI-MICAMATION',
+      label: isFa ? 'مخزن خلاء و اشباع VPI' : 'VPI Impregnation Tank',
+      sub: 'WC-AUT-VPI01',
       level: 1,
       type: 'RESOURCE' as GraphNodeType,
-      status: 'OPERATIONAL',
-      isAffected: true,
-      sap: 'CRHD / KAKO'
+      status: 'AVAILABLE',
+      isAffected: false,
+      sap: 'CDS: I_WorkCenterCapacity'
     },
 
     // Level 2: Operations
     {
-      id: 'OP-ST-0030',
-      label: isFa ? 'OP-0030: فرزکاری شیارهای ریل استاتور' : 'OP-0030: Stator Frame Slotting',
-      sub: '140h • WC-MCH-BORING01',
+      id: 'OP-JAH-020',
+      label: isFa ? 'فرزکاری نشیمنگاه‌های استاتور (Milling Stator Footpads)' : 'Milling Stator Frame Footpads',
+      sub: '160 Std Hrs • WC-MCH-BORING01',
       level: 2,
       type: 'OPERATION' as GraphNodeType,
-      status: 'DISRUPTED',
+      status: 'HALTED',
       isAffected: true,
-      sap: 'AFVC / AFVV'
+      sap: 'CDS: I_ProductionOrderOperation'
     },
     {
-      id: 'OP-ST-0040',
-      label: isFa ? 'OP-0040: ماشین‌کاری نشیمنگاه ژورنال' : 'OP-0040: Journal Bearing Machining',
-      sub: '95h • Predecessor: OP-0030',
+      id: 'OP-JAH-025',
+      label: isFa ? 'بورینگ محفظه یاتاقان‌ها و شیلدهای انتهایی' : 'Boring Bearing Housings & Endshields',
+      sub: '120 Std Hrs • WC-MCH-BORING01',
       level: 2,
       type: 'OPERATION' as GraphNodeType,
       status: 'DELAYED',
       isAffected: true,
-      sap: 'AFVC / AFVV'
+      sap: 'CDS: I_ProductionOrderOperation'
     },
     {
-      id: 'OP-ST-0050',
-      label: isFa ? 'OP-0050: پرس و استکینگ هسته استاتور' : 'OP-0050: Core Stacking & Pressing',
-      sub: '110h • Hydraulic Press',
+      id: 'OP-JAH-030',
+      label: isFa ? 'ورق‌چینی و استکینگ هسته مغناطیسی' : 'Stator Core Stacking',
+      sub: '240 Std Hrs • WC-MAN-STACK01',
       level: 2,
       type: 'OPERATION' as GraphNodeType,
-      status: 'DELAYED',
+      status: 'BLOCKED_BY_PRED',
       isAffected: true,
-      sap: 'AFVC / AFVV'
+      sap: 'CDS: I_ProductionOrderOperation'
     },
 
-    // Level 3: Production Orders
+    // Level 3: Production Orders & WBS
     {
-      id: 'PO-GEN-ST-1092',
-      label: isFa ? 'سفارش ساخت پوسته و استاتور ۱۶۰ مگاوات' : 'PO-1092: 160MW Stator Assembly',
-      sub: 'Qty: 1 • Project: MGT70-GEN-04',
+      id: 'ORD-10084201',
+      label: isFa ? 'سفارش ساخت استاتور ژنراتور ۱۶۰ مگاوات' : 'Production Order: Stator 160MW',
+      sub: 'Order #10084201 • 80t Assembly',
       level: 3,
       type: 'PROD_ORDER' as GraphNodeType,
-      status: 'DELAYED',
+      status: 'CRITICAL_DELAY',
       isAffected: true,
-      sap: 'AFKO / AUFK'
+      sap: 'CDS: I_ProductionOrder'
     },
     {
-      id: 'PO-GEN-ST-1093',
-      label: isFa ? 'سفارش روتور ژنراتور کلاس F' : 'PO-1093: Class F Rotor Slotting',
-      sub: 'Qty: 1 • Project: CLS-F-324MW',
-      level: 3,
-      type: 'PROD_ORDER' as GraphNodeType,
-      status: 'AT_RISK',
-      isAffected: true,
-      sap: 'AFKO / AUFK'
-    },
-
-    // Level 4: Project WBS
-    {
-      id: 'WBS-MGT70-STATOR-FRAME',
-      label: isFa ? 'WBS: ساخت فریم و هسته استاتور' : 'WBS: Stator Core & Frame',
-      sub: 'PRJ-MGT70-GEN-04',
+      id: 'WBS-PRJ-JAHROM-02',
+      label: isFa ? 'عنصر WBS: ساخت استاتور ژنراتور جهرم' : 'WBS: Stator Manufacturing Jahrom',
+      sub: 'WBS Level 3 • Cost Center CC-PRD-GEN',
       level: 4,
       type: 'WBS' as GraphNodeType,
-      status: 'CRITICAL',
+      status: 'SCHEDULE_BREACH',
       isAffected: true,
-      sap: 'PROJ / PRPS'
+      sap: 'CDS: I_EnterpriseProjectElement'
     },
 
-    // Level 5: Commitments
+    // Level 4: Contractual Commitments & Cash
     {
-      id: 'COMM-MGT70-MS2-BILLING',
-      label: isFa ? 'مایل‌استون مالی مرحله ۴ (استکینگ و VPI)' : 'Milestone 4 Billing Gate (42B IRR)',
-      sub: 'Due: 2026-06-30 • Cash Gate',
+      id: 'CMT-JAH-01',
+      label: isFa ? 'مایل‌استون تست کارخانه‌ای (FAT)' : 'Factory Acceptance Test (FAT)',
+      sub: 'Contract Deadline: 1404/04/15',
       level: 5,
       type: 'COMMITMENT' as GraphNodeType,
       status: 'AT_RISK',
       isAffected: true,
-      sap: 'VBAK / VBKD'
+      sap: 'Sales Contract Cl. 8.4'
     },
     {
-      id: 'COMM-MGT70-FINAL-DELIVERY',
-      label: isFa ? 'تعهد تحویل ژنراتور به نیروگاه (برق حرارتی)' : 'Customer Delivery Commitment (TPPH)',
-      sub: 'Penalty: 450M IRR/day • LD Gate',
+      id: 'CMT-JAH-02',
+      label: isFa ? 'تعهد تحویل سر کارگاه نیروگاه جهرم' : 'FOB Power Plant Site Delivery',
+      sub: 'Penalties: 450M IRR / Day',
       level: 5,
       type: 'COMMITMENT' as GraphNodeType,
-      status: 'CRITICAL',
+      status: 'AT_RISK',
       isAffected: true,
-      sap: 'VBAK / VBKD'
+      sap: 'Contract Cl. 14.2'
     },
-
-    // Level 6: Cash Impact
     {
       id: 'CASH-DEFICIT-IMPACT',
       label: isFa ? 'کسری و تعویق جریان نقدینگی خزانه‌داری' : 'Cash Flow Shift & Penalty Deficit',
@@ -204,7 +192,7 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
       type: 'CASH' as GraphNodeType,
       status: 'BREACHED',
       isAffected: true,
-      sap: 'FAGLFLEXA / BSEG'
+      sap: 'Universal Journal (ACDOCA)'
     }
   ];
 
@@ -259,16 +247,16 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
     <div className="space-y-6">
       
       {/* Header & Graph Overview */}
-      <div className="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0a0f1a]/95 p-6 sm:p-7 rounded-2xl border border-slate-800 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/80 border border-cyan-500/30 text-cyan-300 text-xs font-mono mb-2">
             <GitBranch className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{isFa ? 'گراف دانش سازمانی (Enterprise Knowledge Graph)' : 'Enterprise Knowledge Graph'}</span>
+            <span>{isFa ? 'گراف دانش سازمانی و ردپای علت و معلولی' : 'Enterprise Causal Knowledge Graph'}</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
+          <h1 className="text-xl sm:text-2xl font-mono font-black text-white tracking-wide">
             {isFa ? 'ردیابی زنجیره انتشار اثر: از منبع تا نقدینگی' : 'Impact Propagation: Resource → Operation → Commitment → Cash'}
           </h1>
-          <p className="text-slate-400 text-xs sm:text-sm mt-1">
+          <p className="text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed font-sans max-w-4xl">
             {isFa 
               ? 'نمایش روابط علّی و معلولی چندلایه بین تجهیزات کارگاهی، سفارشات تولید، مایل‌استون‌های پروژه و تعهدات نقدینگی خزانه‌داری.'
               : 'Multi-tiered causal dependency tracing from machine work centers down to contractual milestones and cash liquidity.'}
@@ -276,23 +264,24 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-3 shrink-0 text-xs">
-          <label className="flex items-center gap-2 bg-slate-950 px-3 py-2 rounded-lg border border-slate-800 cursor-pointer text-slate-300 hover:text-white">
+        <div className="flex items-center gap-3 shrink-0 text-xs font-mono">
+          <label className="flex items-center gap-2 bg-[#0c1628] px-3.5 py-2.5 rounded-xl border border-cyan-500/30 cursor-pointer text-cyan-200 hover:bg-[#12203a] font-medium transition">
             <input 
               type="checkbox" 
               checked={filterAffectedOnly} 
               onChange={e => setFilterAffectedOnly(e.target.checked)}
-              className="accent-cyan-500 rounded"
+              className="accent-cyan-400 rounded"
             />
             <span>{isFa ? 'فقط گره‌های متاثر از شوک' : 'Impacted Nodes Only'}</span>
           </label>
 
           <button
             onClick={() => onNavigateTab('decision')}
-            className="px-4 py-2 rounded-lg font-semibold bg-cyan-600 hover:bg-cyan-500 text-white flex items-center gap-1.5 transition"
+            className="px-5 py-2.5 rounded-xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white flex items-center gap-2 transition cursor-pointer shadow-lg border border-emerald-400/40 radar-glow-emerald"
           >
-            <span>{isFa ? 'مشاهده بسته تصمیم' : 'Decision Package'}</span>
-            <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+            <Shield className="w-4 h-4" />
+            <span>{isFa ? 'بسته تصمیم' : 'Decision Package'}</span>
+            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
           </button>
         </div>
       </div>
@@ -301,26 +290,26 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Left 2 Cols: Interactive Graph Flow */}
-        <div className="lg:col-span-2 bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-xl space-y-6 relative overflow-hidden">
+        <div className="lg:col-span-2 bg-[#070c16] p-6 sm:p-7 rounded-2xl border border-slate-800 shadow-2xl space-y-6 relative overflow-hidden cockpit-grid">
           
           {/* Layer Headers */}
-          <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 pb-2 border-b border-slate-800/80">
-            <span>{isFa ? 'لایه ۱: منابع (Resources)' : 'L1: Resources'}</span>
-            <span>↓</span>
-            <span>{isFa ? 'لایه ۲: عملیات‌ها (Operations)' : 'L2: Operations'}</span>
-            <span>↓</span>
-            <span>{isFa ? 'لایه ۳: سفارشات (Orders)' : 'L3: Orders'}</span>
-            <span>↓</span>
-            <span>{isFa ? 'لایه ۴: تعهدات (Commitments)' : 'L4: Commitments'}</span>
-            <span>↓</span>
-            <span className="text-cyan-400">{isFa ? 'لایه ۵: نقدینگی (Cash)' : 'L5: Cash'}</span>
+          <div className="flex items-center justify-between text-[11px] font-mono font-bold text-slate-400 pb-3 border-b border-slate-800">
+            <span>{isFa ? 'لایه ۱: منابع' : 'L1: Resources'}</span>
+            <span className="text-cyan-400">→</span>
+            <span>{isFa ? 'لایه ۲: عملیات‌ها' : 'L2: Operations'}</span>
+            <span className="text-cyan-400">→</span>
+            <span>{isFa ? 'لایه ۳: سفارشات' : 'L3: Orders'}</span>
+            <span className="text-cyan-400">→</span>
+            <span>{isFa ? 'لایه ۴: تعهدات' : 'L4: Commitments'}</span>
+            <span className="text-cyan-400">→</span>
+            <span className="text-rose-400">{isFa ? 'لایه ۵: نقدینگی' : 'L5: Cash'}</span>
           </div>
 
           {/* Visual Cascading Nodes */}
           <div className="space-y-4">
             {/* Step 1: Disrupted Resource */}
             <div className="space-y-2">
-              <span className="text-xs font-mono text-slate-400 block font-semibold">
+              <span className="text-xs font-mono text-cyan-300 block font-bold">
                 [1] {isFa ? 'منبع آسیب‌دیده کارگاهی (Disrupted Machine Work Center)' : 'Disrupted Machine Work Center'}
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -328,106 +317,107 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
                   <div
                     key={n.id}
                     onClick={() => handleSelectNode(n)}
-                    className={`p-3.5 rounded-xl border cursor-pointer transition text-xs relative ${
+                    className={`p-4 rounded-xl border cursor-pointer transition text-xs relative ${
                       selectedNode?.id === n.id
-                        ? 'bg-rose-950/40 border-rose-400 ring-2 ring-rose-500/30'
+                        ? 'bg-rose-950/60 border-rose-500 ring-2 ring-rose-500/50 shadow-xl radar-glow-rose'
                         : n.status === 'DISRUPTED'
-                        ? 'bg-rose-950/20 border-rose-500/60 text-rose-200 hover:border-rose-400'
-                        : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
+                        ? 'bg-rose-950/40 border-rose-500/50 text-rose-100 hover:border-rose-400'
+                        : 'bg-[#0d1628] border-slate-800 text-slate-200 hover:border-slate-700'
                     }`}
                   >
                     <div className="flex items-center justify-between font-bold">
                       <div className="flex items-center gap-2">
-                        <Cpu className={`w-4 h-4 ${n.status === 'DISRUPTED' ? 'text-rose-400 animate-pulse' : 'text-slate-400'}`} />
-                        <span className="truncate">{n.label}</span>
+                        <Cpu className="w-4 h-4 text-cyan-400" />
+                        <span className="truncate max-w-[180px] text-slate-100">{n.label}</span>
                       </div>
-                      <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-950 text-slate-400">
-                        {n.sap}
-                      </span>
-                    </div>
-                    <div className="text-[11px] text-slate-400 mt-2 font-mono flex items-center justify-between">
-                      <span>{n.sub}</span>
-                      <span className={`font-bold ${n.status === 'DISRUPTED' ? 'text-rose-400' : 'text-emerald-400'}`}>
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
+                        n.status === 'DISRUPTED' ? 'bg-rose-900 text-rose-200 border border-rose-500/50' : 'bg-emerald-900 text-emerald-200'
+                      }`}>
                         {n.status}
                       </span>
+                    </div>
+                    <div className="text-[11px] text-cyan-400 font-mono mt-1">{n.sub}</div>
+                    <div className="mt-2.5 pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                      <span>{n.sap}</span>
+                      <span className="text-cyan-300 font-bold">{isFa ? 'انتخاب' : 'Inspect'}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Propagation Vector Arrow */}
-            <div className="flex justify-center py-1 text-slate-600">
-              <div className="w-0.5 h-6 bg-rose-500/60 animate-pulse"></div>
+            {/* Downward Laser Conduit */}
+            <div className="flex justify-center py-0.5">
+              <div className="w-0.5 h-5 bg-cyan-500/60 shadow-[0_0_8px_rgba(6,182,212,0.8)]"></div>
             </div>
 
-            {/* Step 2: Affected Operations */}
+            {/* Step 2: Operations Impacted */}
             <div className="space-y-2">
-              <span className="text-xs font-mono text-slate-400 block font-semibold">
-                [2] {isFa ? 'عملیات‌های معوق ساخت (Affected Operations Chain)' : 'Affected Operations Routing'}
+              <span className="text-xs font-mono text-cyan-300 block font-bold">
+                [2] {isFa ? 'عملیات‌های معلق و دارای انحراف (Affected Operations)' : 'Affected Operations'}
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {filteredNodes.filter(n => n.type === 'OPERATION').map(n => (
                   <div
                     key={n.id}
                     onClick={() => handleSelectNode(n)}
-                    className={`p-3 rounded-xl border cursor-pointer transition text-xs ${
+                    className={`p-3.5 rounded-xl border cursor-pointer transition text-xs ${
                       selectedNode?.id === n.id
-                        ? 'bg-amber-950/40 border-amber-400 ring-2 ring-amber-500/30'
-                        : 'bg-slate-900/90 border-slate-800 text-slate-200 hover:border-amber-500/40'
+                        ? 'bg-cyan-950/60 border-cyan-400 ring-2 ring-cyan-400/50 shadow-xl radar-glow-cyan'
+                        : 'bg-[#0d1628] border-slate-800 text-slate-200 hover:border-cyan-500/40'
                     }`}
                   >
-                    <div className="font-semibold truncate">{n.label}</div>
-                    <div className="text-[10px] text-slate-400 font-mono mt-1">{n.sub}</div>
-                    <div className="mt-2 flex items-center justify-between text-[10px]">
+                    <div className="font-bold truncate text-slate-100">{n.label}</div>
+                    <div className="text-[11px] text-slate-400 font-mono mt-1">{n.sub}</div>
+                    <div className="mt-2 flex items-center justify-between text-[10px] font-mono">
                       <span className="text-slate-500">{n.sap}</span>
-                      <span className="text-amber-400 font-mono font-bold">{n.status}</span>
+                      <span className="text-amber-400 font-bold">{n.status}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Propagation Vector Arrow */}
-            <div className="flex justify-center py-1 text-slate-600">
-              <div className="w-0.5 h-6 bg-amber-500/60 animate-pulse"></div>
+            {/* Downward Laser Conduit */}
+            <div className="flex justify-center py-0.5">
+              <div className="w-0.5 h-5 bg-cyan-500/60 shadow-[0_0_8px_rgba(6,182,212,0.8)]"></div>
             </div>
 
             {/* Step 3: Orders & WBS */}
             <div className="space-y-2">
-              <span className="text-xs font-mono text-slate-400 block font-semibold">
-                [3] {isFa ? 'سفارشات تولید و ساختار شکست کار (Production Orders & WBS)' : 'Production Orders & Project WBS'}
+              <span className="text-xs font-mono text-cyan-300 block font-bold">
+                [3] {isFa ? 'سفارشات ساخت و بسته‌های WBS (Orders & WBS Elements)' : 'Orders & WBS Elements'}
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {filteredNodes.filter(n => n.type === 'PROD_ORDER' || n.type === 'WBS').map(n => (
                   <div
                     key={n.id}
                     onClick={() => handleSelectNode(n)}
-                    className={`p-3 rounded-xl border cursor-pointer transition text-xs ${
+                    className={`p-3.5 rounded-xl border cursor-pointer transition text-xs ${
                       selectedNode?.id === n.id
-                        ? 'bg-cyan-950/40 border-cyan-400 ring-2 ring-cyan-500/30'
-                        : 'bg-slate-900/90 border-slate-800 text-slate-200 hover:border-cyan-500/40'
+                        ? 'bg-cyan-950/60 border-cyan-400 ring-2 ring-cyan-400/50 shadow-xl'
+                        : 'bg-[#0d1628] border-slate-800 text-slate-200 hover:border-cyan-500/40'
                     }`}
                   >
-                    <div className="font-semibold truncate">{n.label}</div>
-                    <div className="text-[10px] text-slate-400 font-mono mt-1">{n.sub}</div>
-                    <div className="mt-2 flex items-center justify-between text-[10px]">
+                    <div className="font-bold truncate text-slate-100">{n.label}</div>
+                    <div className="text-[11px] text-slate-400 font-mono mt-1">{n.sub}</div>
+                    <div className="mt-2 flex items-center justify-between text-[10px] font-mono">
                       <span className="text-slate-500">{n.sap}</span>
-                      <span className="text-cyan-400 font-mono font-bold">{n.status}</span>
+                      <span className="text-cyan-300 font-bold">{n.status}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Propagation Vector Arrow */}
-            <div className="flex justify-center py-1 text-slate-600">
-              <div className="w-0.5 h-6 bg-cyan-500/60 animate-pulse"></div>
+            {/* Downward Laser Conduit */}
+            <div className="flex justify-center py-0.5">
+              <div className="w-0.5 h-5 bg-cyan-500/60 shadow-[0_0_8px_rgba(6,182,212,0.8)]"></div>
             </div>
 
             {/* Step 4: Commitments & Cash */}
             <div className="space-y-2">
-              <span className="text-xs font-mono text-slate-400 block font-semibold">
+              <span className="text-xs font-mono text-rose-300 block font-bold">
                 [4] {isFa ? 'تعهدات قراردادی و جریان نقدینگی خزانه‌داری (Commitments & Cash Impact)' : 'Commitments & Cash Impact'}
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -435,19 +425,19 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
                   <div
                     key={n.id}
                     onClick={() => handleSelectNode(n)}
-                    className={`p-3 rounded-xl border cursor-pointer transition text-xs ${
+                    className={`p-3.5 rounded-xl border cursor-pointer transition text-xs ${
                       selectedNode?.id === n.id
-                        ? 'bg-rose-950/40 border-rose-400 ring-2 ring-rose-500/30'
+                        ? 'bg-rose-950/60 border-rose-500 ring-2 ring-rose-500/50 shadow-xl radar-glow-rose'
                         : n.type === 'CASH'
-                        ? 'bg-slate-900 border-rose-500/40 text-rose-200'
-                        : 'bg-slate-900/90 border-slate-800 text-slate-200 hover:border-rose-500/40'
+                        ? 'bg-[#150a10] border-rose-500/40 text-rose-200'
+                        : 'bg-[#0d1628] border-slate-800 text-slate-200 hover:border-rose-500/40'
                     }`}
                   >
                     <div className="font-bold truncate text-slate-100">{n.label}</div>
-                    <div className="text-[10px] text-slate-400 font-mono mt-1">{n.sub}</div>
-                    <div className="mt-2 flex items-center justify-between text-[10px]">
+                    <div className="text-[11px] text-slate-400 font-mono mt-1">{n.sub}</div>
+                    <div className="mt-2 flex items-center justify-between text-[10px] font-mono">
                       <span className="text-slate-500">{n.sap}</span>
-                      <span className="text-rose-400 font-mono font-bold">{n.status}</span>
+                      <span className="text-rose-400 font-bold">{n.status}</span>
                     </div>
                   </div>
                 ))}
@@ -457,58 +447,58 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
         </div>
 
         {/* Right 1 Col: Node Inspector & SAP Blueprint Info */}
-        <div className="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 shadow-xl space-y-5">
+        <div className="bg-[#0a0f1a]/95 p-6 sm:p-7 rounded-2xl border border-slate-800 shadow-2xl space-y-5">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <div className="flex items-center gap-2">
-              <Info className="w-4 h-4 text-cyan-400" />
-              <h2 className="font-bold text-sm text-white">
+              <Info className="w-5 h-5 text-cyan-400" />
+              <h2 className="font-mono font-bold text-base text-slate-100">
                 {isFa ? 'شناسنامه گره گراف (Node Inspector)' : 'Node Inspector'}
               </h2>
             </div>
             {selectedNode && (
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">
+              <span className="text-xs font-mono font-bold px-2.5 py-1 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30">
                 {selectedNode.type}
               </span>
             )}
           </div>
 
           {selectedNode ? (
-            <div className="space-y-4 text-xs">
+            <div className="space-y-4 text-xs font-sans">
               <div>
-                <h3 className="font-bold text-sm text-slate-100">{selectedNode.title}</h3>
-                <span className="text-[11px] font-mono text-slate-400 block mt-0.5">
+                <h3 className="font-bold text-base text-slate-100 font-sans">{selectedNode.title}</h3>
+                <span className="text-[11px] font-mono text-cyan-400 block mt-0.5">
                   ID: {selectedNode.id}
                 </span>
               </div>
 
-              <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
-                <span className="text-[11px] text-cyan-400 font-mono font-semibold block">
+              <div className="bg-[#070d18] p-3.5 rounded-xl border border-slate-800 space-y-1.5 font-mono">
+                <span className="text-xs text-cyan-300 font-bold block">
                   {isFa ? 'منبع داده در SAP S/4HANA:' : 'SAP S/4HANA Source:'}
                 </span>
-                <p className="font-mono text-slate-300 text-[11px]">
+                <p className="text-slate-300 text-xs">
                   {selectedNode.sapSource}
                 </p>
               </div>
 
               <div className="space-y-2">
-                <span className="font-semibold text-slate-300 block">
+                <span className="font-mono font-bold text-slate-200 block">
                   {isFa ? 'ویژگی‌های کانونیکال گره:' : 'Node Attributes:'}
                 </span>
-                <div className="space-y-1.5 bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                <div className="space-y-2 bg-[#070d18] p-3.5 rounded-xl border border-slate-800 font-mono">
                   {Object.entries(selectedNode.details).map(([key, val]) => (
-                    <div key={key} className="flex items-center justify-between text-[11px]">
+                    <div key={key} className="flex items-center justify-between text-xs">
                       <span className="text-slate-400">{key}:</span>
-                      <span className="font-mono text-slate-200">{String(val)}</span>
+                      <span className="font-semibold text-slate-200">{String(val)}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-rose-950/20 border border-rose-500/30 p-3 rounded-xl space-y-1">
-                <span className="text-rose-400 font-bold block text-[11px]">
+              <div className="bg-rose-950/40 border border-rose-500/40 p-3.5 rounded-xl space-y-1">
+                <span className="text-rose-300 font-bold block text-xs font-mono">
                   {isFa ? 'اثر انتشار رو به جلو (Downstream Impact):' : 'Downstream Impact:'}
                 </span>
-                <p className="text-slate-300 text-[11px] leading-relaxed">
+                <p className="text-slate-300 text-xs leading-relaxed">
                   {selectedNode.downstreamImpact}
                 </p>
               </div>
@@ -516,15 +506,16 @@ export const EnterpriseGraphView: React.FC<EnterpriseGraphViewProps> = ({
               <div className="pt-2">
                 <button
                   onClick={() => onNavigateTab('decision')}
-                  className="w-full py-2.5 rounded-xl font-semibold text-xs bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-md flex items-center justify-center gap-2 transition"
+                  className="w-full py-3 rounded-xl font-bold font-mono text-xs bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white shadow-lg flex items-center justify-center gap-2 transition cursor-pointer border border-emerald-400/40"
                 >
+                  <Shield className="w-4 h-4" />
                   <span>{isFa ? 'اقدامات اصلاحی برای این گره' : 'Mitigation Action Plan'}</span>
-                  <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </button>
               </div>
             </div>
           ) : (
-            <p className="text-slate-500 text-center py-10">
+            <p className="text-slate-500 text-center py-10 font-mono">
               {isFa ? 'یک گره از گراف را جهت مشاهده جزئیات انتخاب فرمایید.' : 'Select a node in the graph to inspect properties.'}
             </p>
           )}

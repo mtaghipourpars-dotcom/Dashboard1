@@ -1,11 +1,134 @@
 @import "tailwindcss";
 
+/* ----------------------------------------------------
+   IRANIAN SANS & IRANSANS TYPOGRAPHY DEFINITIONS
+   ---------------------------------------------------- */
+@font-face {
+  font-family: 'Iranian Sans';
+  src: url('/fonts/IranianSansRegular.ttf') format('truetype'),
+       url('/fonts/iranian-sans.ttf') format('truetype'),
+       url('/fonts/IRANSans-web.woff') format('woff');
+  font-weight: 100 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Iranian Sans';
+  src: url('/fonts/IranianSansBold.ttf') format('truetype'),
+       url('/fonts/iranian-sans-bold.ttf') format('truetype');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IranianSans';
+  src: url('/fonts/IranianSansRegular.ttf') format('truetype'),
+       url('/fonts/iranian-sans.ttf') format('truetype'),
+       url('/fonts/IRANSans-web.woff') format('woff');
+  font-weight: 100 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IranianSans';
+  src: url('/fonts/IranianSansBold.ttf') format('truetype'),
+       url('/fonts/iranian-sans-bold.ttf') format('truetype');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('/fonts/IranianSansRegular.ttf') format('truetype'),
+       url('/fonts/iranian-sans.ttf') format('truetype'),
+       url('/fonts/IRANSans-web.woff') format('woff');
+  font-weight: 100 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('/fonts/IranianSansBold.ttf') format('truetype'),
+       url('/fonts/iranian-sans-bold.ttf') format('truetype');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: 'Iranian Sans', 'IranianSans', 'IRANSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 @layer base {
-  body {
-    font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  :root {
+    --font-iranian: 'Iranian Sans', 'IranianSans', 'IRANSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-vazir: 'Iranian Sans', 'IranianSans', 'IRANSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  html, body {
+    font-family: 'Iranian Sans', 'IranianSans', 'IRANSans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    background-color: #06090f;
+    color: #e2e8f0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+
+  input, button, select, textarea, optgroup, option {
+    font-family: 'Iranian Sans', 'IranianSans', 'IRANSans', system-ui, -apple-system, sans-serif;
   }
   
-  code, pre, .font-mono {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  code, pre, .font-mono, [class*="font-mono"] {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+    direction: ltr;
   }
+}
+
+/* Tactical Cockpit Grid & Aesthetics */
+.cockpit-grid {
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 60%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+}
+
+.radar-glow-cyan {
+  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.radar-glow-amber {
+  box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.radar-glow-rose {
+  box-shadow: 0 0 25px -5px rgba(244, 63, 94, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.radar-glow-emerald {
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Custom dark cockpit scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090e17;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
 }

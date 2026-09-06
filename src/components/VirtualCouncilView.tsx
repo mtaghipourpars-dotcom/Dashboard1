@@ -6,12 +6,12 @@ import {
   ShieldAlert, 
   CheckCircle2, 
   AlertTriangle, 
-  HelpCircle, 
   Sparkles, 
   ArrowRight,
   Bot,
   User,
-  ExternalLink
+  Shield,
+  Radio
 } from 'lucide-react';
 import { 
   Language, 
@@ -105,7 +105,7 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
 
       setChatMessages(prev => [...prev, councilMsg]);
     } catch {
-      // Handled inside service
+      // Handled in geminiService fallback
     } finally {
       setLoadingQuery(false);
     }
@@ -115,29 +115,29 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
     switch (stance) {
       case 'APPROVE':
         return (
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-            <CheckCircle2 className="w-3 h-3" />
+          <span className="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
+            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
             <span>APPROVE</span>
           </span>
         );
       case 'CONDITIONAL':
         return (
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-            <AlertTriangle className="w-3 h-3" />
+          <span className="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-amber-950/80 text-amber-300 border border-amber-500/40 flex items-center gap-1">
+            <AlertTriangle className="w-3 h-3 text-amber-400" />
             <span>CONDITIONAL</span>
           </span>
         );
       case 'CAUTION':
         return (
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 flex items-center gap-1">
-            <AlertTriangle className="w-3 h-3" />
+          <span className="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-rose-950/80 text-rose-300 border border-rose-500/40 flex items-center gap-1">
+            <AlertTriangle className="w-3 h-3 text-rose-400" />
             <span>CAUTION</span>
           </span>
         );
       case 'OBJECT':
         return (
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-red-600/30 text-red-300 border border-red-500/40 flex items-center gap-1">
-            <ShieldAlert className="w-3 h-3" />
+          <span className="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold bg-red-900 text-red-100 border border-red-500/60 flex items-center gap-1">
+            <ShieldAlert className="w-3 h-3 text-red-300" />
             <span>OBJECT</span>
           </span>
         );
@@ -147,63 +147,64 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
   return (
     <div className="space-y-6">
       
-      {/* Header & Overview */}
-      <div className="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* Header & Overview - War Room Status */}
+      <div className="bg-[#0a0f1a]/95 p-6 sm:p-7 rounded-2xl border border-slate-800 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/80 border border-cyan-500/30 text-cyan-300 text-xs font-mono mb-2">
             <Users className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{isFa ? 'لایه تفسیر و چالش تخصصی سازمانی' : 'Virtual Executive Council'}</span>
+            <span>{isFa ? 'شورای چندعامله اجرایی و اتاق جنگ سازمانی' : 'Multi-Agent Executive War Room'}</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">
-            {isFa ? 'شورای اجرایی مجازی مپنا پارس (Virtual Executive Council)' : 'MAPNA Pars Virtual Executive Council'}
+          <h1 className="text-xl sm:text-2xl font-mono font-black text-white tracking-wide">
+            {isFa ? 'شورای مجازی مدیران مپنا پارس (Virtual Executive Council)' : 'MAPNA Pars Virtual Executive Council'}
           </h1>
-          <p className="text-slate-400 text-xs sm:text-sm mt-1">
+          <p className="text-slate-400 text-xs sm:text-sm mt-1.5 leading-relaxed font-sans max-w-4xl">
             {isFa 
-              ? 'مجموعه ۷ عامل تخصصی هوشمند که خروجی شبیه‌سازی را از زوایای عملیات، مالی، کیفیت، زنجیره تامین، واقعیت ایران و بدبینانه چالش می‌کشند.'
-              : 'Multi-agent executive council subjecting deterministic simulation results to rigorous cross-functional challenge.'}
+              ? 'مجموعه ۸ عضو تخصصی شورای اجرایی مپنا پارس (مدیرعامل، مالی، مهندسی و کیفیت، تولید و عملیات، سرمایه انسانی، زنجیره تأمین، فناوری اطلاعات و معماری داده، و مدیریت تعهدات و سبد پروژه‌ها) که تصمیم بهینه را نقادی و اعتبارسنجی می‌کنند.'
+              : 'The 8-member Executive Council (CEO, CFO, CTO/QA, COO, CHRO, CSCO, CDO, and Commitment Director) subjecting simulation results to rigorous cross-functional challenge.'}
           </p>
         </div>
 
         <button
           onClick={() => onNavigateTab('decision')}
-          className="px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white flex items-center gap-1.5 transition self-start md:self-auto"
+          className="px-5 py-3 rounded-xl font-mono text-xs font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white flex items-center gap-2 transition self-start md:self-auto cursor-pointer shadow-lg border border-emerald-400/40 radar-glow-emerald"
         >
-          <span>{isFa ? 'مشاهده بسته تصمیم مصوب' : 'Open Decision Package'}</span>
-          <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+          <Shield className="w-4 h-4" />
+          <span>{isFa ? 'احضار بسته تصمیم هیئت مدیره' : 'Open Decision Package'}</span>
+          <ArrowRight className="w-4 h-4 rtl:rotate-180" />
         </button>
       </div>
 
-      {/* Grid of Council Members' Stances */}
+      {/* Grid of 8 Council Members' Interactive Holographic Seats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {council.map((member) => (
           <div 
             key={member.id}
-            className="bg-slate-900/90 rounded-xl border border-slate-800 p-4 shadow flex flex-col justify-between space-y-3 text-xs"
+            className="bg-[#0a0f1a]/95 rounded-2xl border border-slate-800 p-5 shadow-xl flex flex-col justify-between space-y-3.5 text-xs hover:border-cyan-500/40 transition-all group"
           >
             <div>
-              <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-800/80">
-                <div className="flex items-center gap-2">
-                  <div className={`w-7 h-7 rounded-lg ${member.avatarColor} text-white flex items-center justify-center font-bold text-xs shadow`}>
+              <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-8 h-8 rounded-lg ${member.avatarColor} text-white flex items-center justify-center font-bold font-mono text-xs shadow-md border border-white/20`}>
                     {member.id.slice(0, 2)}
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-100">{isFa ? member.name : member.nameEn}</h3>
-                    <span className="text-[10px] text-slate-400 block">{isFa ? member.role : member.roleEn}</span>
+                    <h3 className="font-bold text-slate-100 text-sm">{isFa ? member.name : member.nameEn}</h3>
+                    <span className="text-[11px] text-cyan-400 font-mono block mt-0.5">{isFa ? member.role : member.roleEn}</span>
                   </div>
                 </div>
                 {getStanceBadge(member.stance)}
               </div>
 
-              <p className="text-slate-300 text-[11px] leading-relaxed mt-2.5">
+              <p className="text-slate-300 text-xs leading-relaxed mt-3 font-sans">
                 "{isFa ? member.comment : member.commentEn}"
               </p>
             </div>
 
-            <div className="pt-2 border-t border-slate-800/60 text-[11px]">
-              <span className="text-cyan-400 font-semibold block mb-0.5">
-                {isFa ? 'پرسش کلیدی / چالش:' : 'Key Challenge:'}
+            <div className="pt-3 border-t border-slate-800 text-[11px] bg-[#070d18] p-3 rounded-xl border border-slate-800/80">
+              <span className="text-amber-400 font-mono font-bold block mb-1">
+                {isFa ? 'پرسش کلیدی و دغدغه اصلی:' : 'Key Challenge:'}
               </span>
-              <p className="text-slate-400 italic">
+              <p className="text-slate-300 leading-relaxed font-sans">
                 {isFa ? member.keyQuestion : member.keyQuestionEn}
               </p>
             </div>
@@ -212,23 +213,23 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
       </div>
 
       {/* Interactive Council Deliberation Chamber (Chat / Consultation) */}
-      <div className="bg-slate-900/90 rounded-2xl border border-slate-800 p-6 shadow-xl space-y-4">
+      <div className="bg-[#0a0f1a]/95 rounded-2xl border border-slate-800 p-6 sm:p-7 shadow-2xl space-y-4">
         <div className="flex items-center justify-between border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">
-            <MessageSquare className="w-4 h-4 text-cyan-400" />
-            <h2 className="font-bold text-base text-white">
+            <MessageSquare className="w-5 h-5 text-cyan-400" />
+            <h2 className="font-mono font-bold text-base text-slate-100 tracking-wide">
               {isFa ? 'اتاق مشاوره و استعلام مستقیم از اعضای شورا' : 'Interactive Council Consultation Chamber'}
             </h2>
           </div>
-          <span className="text-xs font-mono text-slate-400 flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{isFa ? 'پشتیبانی از مدل تحلیلی Gemini' : 'Powered by Gemini & Grounded Truth'}</span>
+          <span className="text-xs font-mono text-cyan-300 flex items-center gap-1.5 bg-[#0c1628] px-2.5 py-1 rounded border border-cyan-500/30">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <span>{isFa ? 'موتور تحلیلی استنتاجی متصل به داده‌های کارخانه' : 'Grounded on Factory Knowledge'}</span>
           </span>
         </div>
 
-        {/* Preset Questions Chips */}
-        <div className="space-y-1.5">
-          <span className="text-[11px] text-slate-400 font-semibold">
+        {/* Preset Tactical Questions Chips */}
+        <div className="space-y-2">
+          <span className="text-xs text-slate-400 font-mono font-bold block uppercase tracking-wider">
             {isFa ? 'پرسش‌های پیشنهادی هیئت مدیره:' : 'Suggested Executive Queries:'}
           </span>
           <div className="flex flex-wrap gap-2">
@@ -236,7 +237,7 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
               <button
                 key={idx}
                 onClick={() => handleSend(q)}
-                className="px-3 py-1.5 rounded-lg text-xs bg-slate-950 text-slate-300 border border-slate-800 hover:border-cyan-500/40 hover:text-cyan-300 transition text-right"
+                className="px-3 py-1.5 rounded-lg text-xs bg-[#0c1628] text-slate-300 border border-slate-800 hover:border-cyan-500/50 hover:bg-[#12203a] hover:text-cyan-200 transition text-right cursor-pointer font-sans"
               >
                 {q}
               </button>
@@ -244,8 +245,8 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
           </div>
         </div>
 
-        {/* Scrollable Chat Thread */}
-        <div className="bg-slate-950 rounded-xl border border-slate-800 p-4 max-h-[420px] overflow-y-auto space-y-4">
+        {/* Scrollable Tactical Chat Thread */}
+        <div className="bg-[#070c16] rounded-xl border border-slate-800 p-4 sm:p-5 max-h-[460px] overflow-y-auto space-y-4">
           {chatMessages.map((msg, idx) => {
             const isUser = msg.sender === 'USER';
             return (
@@ -254,32 +255,32 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
                 className={`flex gap-3 text-xs ${isUser ? 'justify-end' : 'justify-start'}`}
               >
                 {!isUser && (
-                  <div className="w-8 h-8 rounded-lg bg-cyan-600 text-white flex items-center justify-center shrink-0 font-bold text-xs mt-1">
-                    <Bot className="w-4 h-4" />
+                  <div className="w-9 h-9 rounded-xl bg-cyan-950 border border-cyan-500/40 text-cyan-300 flex items-center justify-center shrink-0 font-bold text-xs mt-1 shadow-md">
+                    <Bot className="w-5 h-5" />
                   </div>
                 )}
 
-                <div className={`max-w-2xl rounded-xl p-4 space-y-2 ${
+                <div className={`max-w-2xl rounded-2xl p-4 sm:p-5 space-y-2.5 shadow-xl ${
                   isUser 
-                    ? 'bg-cyan-600 text-white' 
-                    : 'bg-slate-900 border border-slate-800 text-slate-200'
+                    ? 'bg-cyan-700 text-white font-sans' 
+                    : 'bg-[#0d1524] border border-slate-800 text-slate-200'
                 }`}>
                   {!isUser && (
-                    <div className="flex items-center justify-between pb-1.5 border-b border-slate-800 text-[11px]">
-                      <span className="font-bold text-cyan-300">
-                        {msg.speaker} <span className="text-slate-400 font-normal">({msg.speakerRole})</span>
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-xs">
+                      <span className="font-bold text-slate-100 font-mono">
+                        {msg.speaker} <span className="text-cyan-400 font-normal">({msg.speakerRole})</span>
                       </span>
-                      <span className="text-slate-500 font-mono text-[10px]">{msg.timestamp}</span>
+                      <span className="text-slate-500 font-mono text-[11px]">{msg.timestamp}</span>
                     </div>
                   )}
 
-                  <p className="leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                  <p className="leading-relaxed whitespace-pre-wrap text-xs sm:text-[13px] font-sans">{msg.text}</p>
 
                   {msg.groundedFacts && msg.groundedFacts.length > 0 && (
-                    <div className="mt-2 pt-2 border-t border-slate-800/80 text-[11px] text-slate-400 space-y-1">
-                      <span className="font-semibold text-slate-300 block">{isFa ? 'حقایق مستند ارجاع‌شده:' : 'Grounded Reference Facts:'}</span>
+                    <div className="mt-3 pt-2.5 border-t border-slate-800 text-xs text-slate-400 space-y-1.5 bg-[#080d18] p-2.5 rounded-lg border border-slate-800">
+                      <span className="font-bold text-slate-200 block font-mono">{isFa ? 'حقایق مستند ارجاع‌شده در پاسخ:' : 'Grounded Reference Facts:'}</span>
                       {msg.groundedFacts.map((fact, fIdx) => (
-                        <div key={fIdx} className="flex items-center gap-1 font-mono text-[10px] text-cyan-400">
+                        <div key={fIdx} className="flex items-center gap-1.5 font-mono text-[11px] text-cyan-300">
                           <span>•</span>
                           <span>{fact}</span>
                         </div>
@@ -288,11 +289,11 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
                   )}
 
                   {msg.suggestedFollowUp && (
-                    <div className="mt-2 pt-2 border-t border-slate-800/80 text-[11px]">
-                      <span className="text-amber-400 font-semibold block mb-1">{isFa ? 'پرسش پیگیری پیشنهادی:' : 'Suggested Follow-Up:'}</span>
+                    <div className="mt-3 pt-2.5 border-t border-slate-800 text-xs">
+                      <span className="text-amber-400 font-mono font-bold block mb-1">{isFa ? 'پرسش پیگیری پیشنهادی:' : 'Suggested Follow-Up:'}</span>
                       <button
                         onClick={() => handleSend(msg.suggestedFollowUp)}
-                        className="text-slate-300 hover:text-white underline text-right cursor-pointer"
+                        className="text-cyan-400 hover:text-cyan-200 font-medium underline text-right cursor-pointer"
                       >
                         {msg.suggestedFollowUp}
                       </button>
@@ -301,8 +302,8 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
                 </div>
 
                 {isUser && (
-                  <div className="w-8 h-8 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center shrink-0 font-bold text-xs mt-1">
-                    <User className="w-4 h-4" />
+                  <div className="w-9 h-9 rounded-xl bg-slate-800 text-slate-200 border border-slate-700 flex items-center justify-center shrink-0 font-bold text-xs mt-1">
+                    <User className="w-5 h-5 text-cyan-300" />
                   </div>
                 )}
               </div>
@@ -311,19 +312,19 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
 
           {loadingQuery && (
             <div className="flex gap-3 text-xs justify-start">
-              <div className="w-8 h-8 rounded-lg bg-cyan-600 text-white flex items-center justify-center shrink-0 font-bold text-xs">
-                <Bot className="w-4 h-4 animate-spin" />
+              <div className="w-9 h-9 rounded-xl bg-cyan-950 border border-cyan-500/40 text-cyan-300 flex items-center justify-center shrink-0 font-bold text-xs">
+                <Bot className="w-5 h-5 animate-spin" />
               </div>
-              <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 text-slate-400 flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></div>
-                <span>{isFa ? 'در حال مشورت با اعضای شورای اجرایی و مدل تحلیلی...' : 'Deliberating with Executive Council agents...'}</span>
+              <div className="bg-[#0d1524] border border-slate-800 rounded-xl p-3.5 text-slate-300 flex items-center gap-2.5 shadow-xl">
+                <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></div>
+                <span className="font-mono">{isFa ? 'در حال مشورت با اعضای شورای مدیران و استخراج فکت‌ها...' : 'Deliberating with Executive Council agents...'}</span>
               </div>
             </div>
           )}
         </div>
 
-        {/* Input Bar */}
-        <div className="flex gap-2">
+        {/* Tactical Input Bar */}
+        <div className="flex gap-2.5">
           <input
             type="text"
             value={inputQuery}
@@ -331,13 +332,13 @@ export const VirtualCouncilView: React.FC<VirtualCouncilViewProps> = ({
             onKeyDown={e => {
               if (e.key === 'Enter') handleSend();
             }}
-            placeholder={isFa ? 'پرسش خود را از شورای اجرایی مپنا پارس مطرح فرمایید...' : 'Query the MAPNA Pars Executive Council...'}
-            className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-200 focus:ring-1 focus:ring-cyan-500 focus:outline-none"
+            placeholder={isFa ? 'پرسش خود را از شورای مدیران مپنا پارس مطرح فرمایید...' : 'Query the MAPNA Pars Executive Council...'}
+            className="flex-1 bg-[#080d18] border border-slate-700 rounded-xl px-4 py-3 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:ring-2 focus:ring-cyan-500 focus:outline-none font-sans"
           />
           <button
             onClick={() => handleSend()}
             disabled={!inputQuery.trim() || loadingQuery}
-            className="px-5 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white font-semibold text-xs flex items-center gap-2 transition"
+            className="px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-slate-950 font-bold font-mono text-xs flex items-center gap-2 transition cursor-pointer shadow-md"
           >
             <span>{isFa ? 'ارسال' : 'Send'}</span>
             <Send className="w-4 h-4 rtl:rotate-180" />

@@ -6,7 +6,8 @@ import {
   CommitmentNode, 
   CashFlowEvent, 
   SapTableMapping,
-  LearningRecord
+  LearningRecord,
+  DisruptionInput
 } from '../types';
 
 export const INITIAL_RESOURCES: ResourceNode[] = [
@@ -20,15 +21,32 @@ export const INITIAL_RESOURCES: ResourceNode[] = [
     isBottleneck: true,
     shop: 'سالن ماشین‌کاری سنگین و سازه',
     shopEn: 'Heavy Machining & Structure Shop',
-    nominalHourlyCostIRR: 35000000, // 35M IRR/hr (3.5M Toman/hr)
+    nominalHourlyCostIRR: 35000000,
     overtimeHourlyCostIRR: 52500000,
     mtbfHours: 720,
     mttrHours: 48,
     operationalAvailability: 0.88,
+    usableAvailability: 0.72, // Usable OEE accounting for setup, alignment & shift warmup
     maxWorkpieceWeightTon: 120,
     toleranceMm: 0.012,
     energyRestricted: true,
     currentStatus: 'DISRUPTED', // Golden scenario active!
+    
+    // Rich Industrial Resource Model
+    spindleState: 'ISO 50 Taper, 160mm Spindle Ram, Bearing Hydro-dynamic Run-out Error',
+    tableDimensions: 'Rotary Table 4000x4000mm, Travel X=10m, Y=4.5m, Z=1.5m, W=1.2m',
+    craneCapacityRequirementTon: 100, // Stator workpiece (80t) requires 100t bay crane
+    powerRatingKVa: 120,
+    operatorSkillCertifications: ['Siemens Sinumerik 840D SL Level 3', 'Heavy Large-Bore Boring', 'Laser Tracker Alignment'],
+    maintenanceState: 'CRITICAL_FAILURE',
+    calibrationState: 'Dynamic calibration overdue post-vibration surge',
+    setupTimeHours: 18,
+    currentCommitmentLoad: ['COMM-JAHROM-STATOR-DELIVERY', 'COMM-CLSF-ROTOR-SLOT-DELIVERY'],
+    activeIoTAlerts: [
+      'Spindle Bearing Vibration: 7.4 mm/s RMS (ISO 10816 Zone D Critical)',
+      'Lube Pressure: 1.9 bar (Below threshold 2.5 bar)'
+    ],
+
     activeDisruption: {
       cause: 'خرابی یونیت هیدرولیک اسپیندل و بلبرینگ‌های دوربالا (Spindle Hydraulic Failure)',
       startDate: '2026-04-10',
@@ -50,9 +68,105 @@ export const INITIAL_RESOURCES: ResourceNode[] = [
     mtbfHours: 850,
     mttrHours: 36,
     operationalAvailability: 0.92,
+    usableAvailability: 0.78,
     maxWorkpieceWeightTon: 150,
     toleranceMm: 0.008,
     energyRestricted: true,
+    currentStatus: 'OPERATIONAL',
+
+    spindleState: 'High-torque Gantry Spindle, 6000 RPM, Optimal Dynamic Balance',
+    tableDimensions: 'Bed 12000x4500mm, Portal Clearance 4200mm',
+    craneCapacityRequirementTon: 120,
+    powerRatingKVa: 160,
+    operatorSkillCertifications: ['Heidenhain TNC 640', 'Hydro-generator Rotor Rim Machining'],
+    maintenanceState: 'HEALTHY',
+    calibrationState: 'Laser calibrated via Renishaw XL-80 (2026-03-02)',
+    setupTimeHours: 14,
+    currentCommitmentLoad: ['COMM-HYDRO-SHAFT-DELIVERY'], // Actively committed to Karun Dam Hydro project!
+    activeIoTAlerts: ['Nominal telemetry - 1.2 mm/s RMS']
+  },
+  {
+    resourceId: 'RES-SKILL-CNC-MASTERS',
+    sapWorkCenter: 'WC-HR-CNC-EXP',
+    name: 'تیم ماشین‌کاران ارشد و برنامه‌نویسان CNC توربین (Master Machinists & CAM)',
+    nameEn: 'Certified Master 5-Axis Machinists & Heavy Turbine CAM Programmers',
+    category: 'PEOPLE_SKILL',
+    criticality: 'A_CRITICAL',
+    isBottleneck: true,
+    shop: 'معاونت تولید و مهندسی ساخت',
+    shopEn: 'Production & Manufacturing Engineering Dept',
+    nominalHourlyCostIRR: 12000000,
+    overtimeHourlyCostIRR: 24000000,
+    mtbfHours: 2000,
+    mttrHours: 120,
+    operationalAvailability: 0.95,
+    usableAvailability: 0.80, // Constrained by legal weekly overtime limit (12 hrs/wk)
+    maxWorkpieceWeightTon: 0,
+    toleranceMm: 0.005,
+    energyRestricted: false,
+    currentStatus: 'OPERATIONAL'
+  },
+  {
+    resourceId: 'RES-FIN-FX-CAPITAL',
+    sapWorkCenter: 'WC-TR-FX-NIMA',
+    name: 'تخصیص ارز تجاری و خط اعتباری خزانه‌داری ارزی (Forex Allocation & LC)',
+    nameEn: 'Commercial Foreign Exchange Quota & Central Bank LC Facility',
+    category: 'CAPITAL_CASH',
+    criticality: 'A_CRITICAL',
+    isBottleneck: true,
+    shop: 'معاونت مالی و اقتصادی (خزانه‌داری)',
+    shopEn: 'Finance & Treasury Department',
+    nominalHourlyCostIRR: 0,
+    overtimeHourlyCostIRR: 0,
+    mtbfHours: 5000,
+    mttrHours: 300,
+    operationalAvailability: 0.90,
+    usableAvailability: 0.75, // Working capital liquidity buffer
+    maxWorkpieceWeightTon: 0,
+    toleranceMm: 0,
+    energyRestricted: false,
+    currentStatus: 'OPERATIONAL'
+  },
+  {
+    resourceId: 'RES-TOOL-STATOR-CLAMP',
+    sapWorkCenter: 'WC-TL-STATOR01',
+    name: 'فیکسچر هیدرولیک کلمپینگ و تراز نشیمنگاه فریم ۱۶۰ مگاوات (Stator Jigs)',
+    nameEn: 'Custom 160MW Stator Frame Hydraulic Clamping & Alignment Fixture',
+    category: 'TOOLING_FIXTURE',
+    criticality: 'B_IMPORTANT',
+    isBottleneck: false,
+    shop: 'انبار ابزار مخصوص و فیکسچرسازی',
+    shopEn: 'Special Tooling & Fixture Crib',
+    nominalHourlyCostIRR: 5000000,
+    overtimeHourlyCostIRR: 7500000,
+    mtbfHours: 1800,
+    mttrHours: 24,
+    operationalAvailability: 0.98,
+    usableAvailability: 0.90,
+    maxWorkpieceWeightTon: 90,
+    toleranceMm: 0.01,
+    energyRestricted: false,
+    currentStatus: 'OPERATIONAL'
+  },
+  {
+    resourceId: 'RES-LOG-HEAVY-BOGIE',
+    sapWorkCenter: 'WC-LOG-BOGIE16',
+    name: 'بوژی چندمحوره ۱۶ محوره حمل محموله ترافیکی سنگین (16-Axle Heavy Hauler)',
+    nameEn: '16-Axle Heavy Road Hauler Bogie & Police Escort Logistics Fleet',
+    category: 'LOGISTICS_TRANSPORT',
+    criticality: 'A_CRITICAL',
+    isBottleneck: true,
+    shop: 'شرکت حمل و نقل چندوجهی مپنا',
+    shopEn: 'MAPNA Multimodal Heavy Logistics',
+    nominalHourlyCostIRR: 22000000,
+    overtimeHourlyCostIRR: 35000000,
+    mtbfHours: 1200,
+    mttrHours: 72,
+    operationalAvailability: 0.85,
+    usableAvailability: 0.65, // Regulated by road traffic police weekend bans & night transit
+    maxWorkpieceWeightTon: 160,
+    toleranceMm: 0,
+    energyRestricted: false,
     currentStatus: 'OPERATIONAL'
   },
   {
@@ -60,7 +174,7 @@ export const INITIAL_RESOURCES: ResourceNode[] = [
     sapWorkCenter: 'WC-WND-VPI01',
     name: 'تاسیسات اشباع رزین تحت خلأ و فشار استاتور (VPI Autoclave)',
     nameEn: 'Stator Vacuum Pressure Impregnation (VPI) Autoclave Plant',
-    category: 'FACILITY',
+    category: 'MACHINE',
     criticality: 'A_CRITICAL',
     isBottleneck: true,
     shop: 'سالن سیم‌پیچی و عایق‌کاری فشار قوی',
@@ -70,6 +184,7 @@ export const INITIAL_RESOURCES: ResourceNode[] = [
     mtbfHours: 1200,
     mttrHours: 24,
     operationalAvailability: 0.95,
+    usableAvailability: 0.82,
     maxWorkpieceWeightTon: 90,
     toleranceMm: 0.05,
     energyRestricted: false,
@@ -90,6 +205,7 @@ export const INITIAL_RESOURCES: ResourceNode[] = [
     mtbfHours: 900,
     mttrHours: 18,
     operationalAvailability: 0.96,
+    usableAvailability: 0.85,
     maxWorkpieceWeightTon: 110,
     toleranceMm: 0.05,
     energyRestricted: false,
@@ -100,7 +216,7 @@ export const INITIAL_RESOURCES: ResourceNode[] = [
     sapWorkCenter: 'WC-TST-BLNC01',
     name: 'تونل بالانس دینامیکی و تست بیش‌سرعت روتور ژنراتور (Balance Bunker)',
     nameEn: 'Rotor Dynamic Balancing & Overspeed Test Tunnel (3600 RPM)',
-    category: 'FACILITY',
+    category: 'MACHINE',
     criticality: 'A_CRITICAL',
     isBottleneck: true,
     shop: 'سالن آزمون نهایی و بالانس',
@@ -110,29 +226,10 @@ export const INITIAL_RESOURCES: ResourceNode[] = [
     mtbfHours: 1500,
     mttrHours: 30,
     operationalAvailability: 0.97,
+    usableAvailability: 0.88,
     maxWorkpieceWeightTon: 80,
     toleranceMm: 0.002,
     energyRestricted: true,
-    currentStatus: 'OPERATIONAL'
-  },
-  {
-    resourceId: 'RES-WINDING-FORM-01',
-    sapWorkCenter: 'WC-WND-FORM01',
-    name: 'خط فرمینگ، نوارپیچی میکا و تست شمش‌های مسی روتور و استاتور',
-    nameEn: 'Copper Bar Forming, Mica Taping & Surge Testing Line',
-    category: 'MACHINE',
-    criticality: 'B_IMPORTANT',
-    isBottleneck: false,
-    shop: 'سالن سیم‌پیچی و عایق‌کاری فشار قوی',
-    shopEn: 'High-Voltage Winding & Insulation Shop',
-    nominalHourlyCostIRR: 15000000,
-    overtimeHourlyCostIRR: 22500000,
-    mtbfHours: 650,
-    mttrHours: 12,
-    operationalAvailability: 0.91,
-    maxWorkpieceWeightTon: 5,
-    toleranceMm: 0.02,
-    energyRestricted: false,
     currentStatus: 'OPERATIONAL'
   }
 ];
@@ -296,6 +393,8 @@ export const INITIAL_COMMITMENTS: CommitmentNode[] = [
     criticalDeadline: '2026-05-10',
     financialValueIRR: 12000000000,
     dailyPenaltyIRR: 0,
+    penaltyClauseRef: 'MAPNA-QA-STD-G1',
+    gracePeriodDays: 2,
     status: 'AT_RISK',
     cashInflowOnCompletionIRR: 0,
     requiredOperationIds: ['OP-ST-0030', 'OP-ST-0040']
@@ -311,6 +410,8 @@ export const INITIAL_COMMITMENTS: CommitmentNode[] = [
     criticalDeadline: '2026-06-30',
     financialValueIRR: 42000000000, // 42 Billion IRR (4.2 Billion Tomans)
     dailyPenaltyIRR: 150000000,
+    penaltyClauseRef: 'TPPH-JAHROM Contract Cl. 8.4',
+    gracePeriodDays: 0,
     status: 'AT_RISK',
     cashInflowOnCompletionIRR: 42000000000,
     requiredOperationIds: ['OP-ST-0050', 'OP-ST-0060']
@@ -326,6 +427,8 @@ export const INITIAL_COMMITMENTS: CommitmentNode[] = [
     criticalDeadline: '2026-08-25',
     financialValueIRR: 480000000000, // 480 Billion IRR (48 Billion Tomans)
     dailyPenaltyIRR: 450000000, // 450M IRR/day (45M Toman/day Liquidated Damages)
+    penaltyClauseRef: 'TPPH-JAHROM Contract Cl. 14.2 (Liquidated Damages)',
+    gracePeriodDays: 5,
     status: 'AT_RISK',
     cashInflowOnCompletionIRR: 120000000000, // Final 25% retention release
     requiredOperationIds: ['OP-ST-0070']
@@ -341,9 +444,28 @@ export const INITIAL_COMMITMENTS: CommitmentNode[] = [
     criticalDeadline: '2026-06-18',
     financialValueIRR: 35000000000,
     dailyPenaltyIRR: 200000000,
+    penaltyClauseRef: 'MD1-KHORRAM-SLA-03',
+    gracePeriodDays: 3,
     status: 'SAFE',
     cashInflowOnCompletionIRR: 0,
     requiredOperationIds: ['OP-CLSF-0025']
+  },
+  {
+    commitmentId: 'COMM-HYDRO-SHAFT-DELIVERY',
+    projectId: 'PRJ-HYDRO-250MW',
+    wbsElement: 'WBS-HYDRO-ROTOR-REHAB',
+    title: 'تحویل شفت و قطب‌های بازسازی‌شده هیدروژنراتور سد کارون به کارفرما',
+    titleEn: 'Delivery of Rehabilitated Rotor Spider & Hub to KWPA Site',
+    type: 'CUSTOMER_DELIVERY',
+    baselineDate: '2026-07-20',
+    criticalDeadline: '2026-07-28',
+    financialValueIRR: 210000000000,
+    dailyPenaltyIRR: 280000000, // 280M IRR/day
+    penaltyClauseRef: 'KWPA-KARUN-CONTRACT Cl. 11',
+    gracePeriodDays: 4,
+    status: 'SAFE',
+    cashInflowOnCompletionIRR: 52500000000,
+    requiredOperationIds: ['OP-HYD-0015']
   }
 ];
 
@@ -393,7 +515,7 @@ export const INITIAL_PROJECTS: ProjectEntity[] = [
     baselineDeliveryDate: '2026-07-20',
     forecastDeliveryDate: '2026-07-20',
     status: 'ON_TRACK',
-    commitments: [],
+    commitments: INITIAL_COMMITMENTS.filter(c => c.projectId === 'PRJ-HYDRO-250MW'),
     productionOrders: INITIAL_PRODUCTION_ORDERS.filter(po => po.projectId === 'PRJ-HYDRO-250MW')
   }
 ];
@@ -406,9 +528,10 @@ export const INITIAL_CASH_EVENTS: CashFlowEvent[] = [
     direction: 'INFLOW',
     amountIRR: 42000000000,
     scheduledDate: '2026-06-30',
-    description: 'وصول صورت‌وضعیت تاییدشده اتمام استکینگ و تست VPI پوسته',
+    description: 'وصول صورت‌وضعیت تاییدشده اتمام استکینگ و تست VPI پوسته استاتور',
     descriptionEn: 'Milestone 4 Stacking & VPI Inflow Collection',
-    cleared: false
+    cleared: false,
+    category: 'INVOICE_MILESTONE'
   },
   {
     eventId: 'CF-MGT70-IN-FINAL',
@@ -419,7 +542,8 @@ export const INITIAL_CASH_EVENTS: CashFlowEvent[] = [
     scheduledDate: '2026-08-25',
     description: 'تسویه نهایی پس از تحویل در سایت و تایید صورت‌جلسه FAT',
     descriptionEn: 'Final Retention Release upon Site FAT Protocol Signing',
-    cleared: false
+    cleared: false,
+    category: 'INVOICE_MILESTONE'
   },
   {
     eventId: 'CF-MCH-OUT-SPARE',
@@ -430,13 +554,90 @@ export const INITIAL_CASH_EVENTS: CashFlowEvent[] = [
     scheduledDate: '2026-04-18',
     description: 'پیش‌پرداخت خرید کیت هیدرولیک اسپیندل و بلبرینگ از انبار استراتژیک',
     descriptionEn: 'Emergency Purchase Outflow for PAMA Spindle Spare Kit',
-    cleared: false
+    cleared: false,
+    category: 'EMERGENCY_COST'
+  },
+  {
+    eventId: 'CF-MGT70-WC-FINANCE',
+    projectId: 'PRJ-MGT70-GEN-04',
+    commitmentRef: 'COMM-MGT70-MS2-BILLING',
+    direction: 'OUTFLOW',
+    amountIRR: 1800000000,
+    scheduledDate: '2026-07-22',
+    description: 'هزینه تامین مالی سرمایه در گردش ناشی از تعویق ۲۲ روزه وصول صورت‌وضعیت (نرخ ۲۴٪ سالانه)',
+    descriptionEn: 'Working Capital Financing Cost from 22-day billing delay (24% annual cost of capital)',
+    cleared: false,
+    category: 'WORKING_CAPITAL_FINANCING'
+  }
+];
+
+export const enterpriseShockPresets: DisruptionInput[] = [
+  {
+    resourceId: 'RES-MCH-BORING-PAMA',
+    resourceCategory: 'MACHINE',
+    resourceName: 'بورینگ و فرز CNC پاما (PAMA Speedram 2000)',
+    downtimeDays: 20,
+    cause: 'خرابی یونیت هیدرولیک اسپیندل و بلبرینگ‌های دوربالا (Spindle Breakdown)',
+    causeEn: 'Main Spindle Hydraulic & high-speed bearings failure',
+    startDate: '2026-04-10',
+    estimatedResolutionDate: '2026-04-30',
+    startOffsetDays: 0,
+    strategicProfile: 'BALANCED'
+  },
+  {
+    resourceId: 'RES-SKILL-CNC-MASTERS',
+    resourceCategory: 'PEOPLE_SKILL',
+    resourceName: 'تیم ماشین‌کاران ارشد و برنامه‌نویسان CNC توربین (Master Machinists)',
+    downtimeDays: 14,
+    cause: 'عدم دسترسی به تکنسین‌های ارشد ۵ محوره و برخورد با سقف قانونی اضافه‌کاری (Skill Constraint)',
+    causeEn: 'Certified Master 5-Axis Machinists unavailable / legal overtime ceiling hit',
+    startDate: '2026-04-12',
+    estimatedResolutionDate: '2026-04-26',
+    startOffsetDays: 0,
+    strategicProfile: 'DELIVERY_CRISIS'
+  },
+  {
+    resourceId: 'RES-FIN-FX-CAPITAL',
+    resourceCategory: 'CAPITAL_CASH',
+    resourceName: 'تخصیص ارز تجاری و خط اعتباری خزانه‌داری (Forex Allocation & LC)',
+    downtimeDays: 25,
+    cause: 'تعلیق تخصیص ارز نیما و تاخیر در گشایش اعتبار اسنادی (LC) جهت ترخیص قطعات یدکی',
+    causeEn: 'Central Bank FX allocation delay freezing LC clearance for imported seal kits',
+    startDate: '2026-04-05',
+    estimatedResolutionDate: '2026-04-30',
+    startOffsetDays: 0,
+    strategicProfile: 'CASH_CRISIS'
+  },
+  {
+    resourceId: 'RES-TOOL-STATOR-CLAMP',
+    resourceCategory: 'TOOLING_FIXTURE',
+    resourceName: 'فیکسچر هیدرولیک کلمپینگ فریم استاتور (Custom Fixture)',
+    downtimeDays: 18,
+    cause: 'دفرمگی و انحراف هندسی پین‌های زاویه‌گیر فیکسچر کلمپینگ پوسته استاتور',
+    causeEn: 'Angular distortion on stator frame custom clamping fixture requiring re-machining',
+    startDate: '2026-04-15',
+    estimatedResolutionDate: '2026-05-03',
+    startOffsetDays: 0,
+    strategicProfile: 'MARGIN_PROTECTION'
+  },
+  {
+    resourceId: 'RES-LOG-HEAVY-BOGIE',
+    resourceCategory: 'LOGISTICS_TRANSPORT',
+    resourceName: 'بوژی ۱۶ محوره حمل محموله ترافیکی سنگین (16-Axle Heavy Hauler)',
+    downtimeDays: 12,
+    cause: 'توقف صدور مجوز بار ترافیکی ۸۰ تن توسط پلیس راهور به دلیل محدودیت تردد تعطیلات',
+    causeEn: 'Heavy 80t oversize road transit permit held by highway authority during holiday bans',
+    startDate: '2026-04-18',
+    estimatedResolutionDate: '2026-04-30',
+    startOffsetDays: 0,
+    strategicProfile: 'BALANCED'
   }
 ];
 
 export const SAP_TABLE_MAPPINGS: SapTableMapping[] = [
   {
     sapTable: 'CRHD + KAKO',
+    businessObject: 'WorkCenterCapacity',
     sapDescription: 'Work Center Header & Capacity Definition',
     cdsView: 'I_WorkCenterCapacity',
     rfcOrBapi: 'BAPI_WORKCENTER_GETDETAIL',
@@ -447,6 +648,7 @@ export const SAP_TABLE_MAPPINGS: SapTableMapping[] = [
   },
   {
     sapTable: 'AFKO + AUFK',
+    businessObject: 'ProductionOrder',
     sapDescription: 'Production Order Header & Master',
     cdsView: 'I_ProductionOrder',
     rfcOrBapi: 'BAPI_PRODORD_GET_DETAIL',
@@ -457,6 +659,7 @@ export const SAP_TABLE_MAPPINGS: SapTableMapping[] = [
   },
   {
     sapTable: 'AFVC + AFVV',
+    businessObject: 'ProductionRouting',
     sapDescription: 'Production Operations & Standard Values',
     cdsView: 'I_ProductionOperation',
     rfcOrBapi: 'RFC_READ_TABLE',
@@ -467,6 +670,7 @@ export const SAP_TABLE_MAPPINGS: SapTableMapping[] = [
   },
   {
     sapTable: 'AFRU',
+    businessObject: 'ProductionConfirmation',
     sapDescription: 'Shop Floor Order Confirmations',
     cdsView: 'I_ProdOrderConfirmation',
     rfcOrBapi: 'BAPI_PRODORDCONF_CREATE_TT',
@@ -477,6 +681,7 @@ export const SAP_TABLE_MAPPINGS: SapTableMapping[] = [
   },
   {
     sapTable: 'PROJ + PRPS',
+    businessObject: 'EnterpriseProject',
     sapDescription: 'Project Definition & WBS Hierarchy',
     cdsView: 'I_EnterpriseProject',
     rfcOrBapi: 'BAPI_PROJECT_GETINFO',
@@ -487,6 +692,7 @@ export const SAP_TABLE_MAPPINGS: SapTableMapping[] = [
   },
   {
     sapTable: 'VBAK + VBKD',
+    businessObject: 'CustomerContract',
     sapDescription: 'Sales Orders & Contractual Milestones',
     cdsView: 'I_SalesContractItem',
     rfcOrBapi: 'BAPI_SALESORDER_GETDETAIL',
@@ -496,14 +702,15 @@ export const SAP_TABLE_MAPPINGS: SapTableMapping[] = [
     extractionMethod: 'CDS View Delta Load'
   },
   {
-    sapTable: 'FAGLFLEXA + BSEG',
-    sapDescription: 'General Ledger Line Items & Receivables',
-    cdsView: 'C_OperationalAccountsPayable',
+    sapTable: 'ACDOCA (Universal Journal)',
+    businessObject: 'JournalEntry',
+    sapDescription: 'General Ledger Line Items & Financial Receivables',
+    cdsView: 'I_UniversalJournalEntryItem',
     rfcOrBapi: 'BAPI_ACC_DOCUMENT_RECORD',
     canonicalEntity: 'canonical.cash_flow_event',
-    refreshFrequency: 'Daily (Nightly)',
-    keyFields: ['BELNR', 'GJAHR', 'WRBTR', 'ZUONR'],
-    extractionMethod: 'Read-only CDS View'
+    refreshFrequency: 'Real-time Delta (5 min)',
+    keyFields: ['RBUKRS', 'GJAHR', 'BELNR', 'DOCLN'],
+    extractionMethod: 'OData Event Mesh / S/4HANA CDS View'
   }
 ];
 
@@ -514,14 +721,23 @@ export const INITIAL_LEARNING_RECORDS: LearningRecord[] = [
     decisionRef: 'DEC-20250814-04',
     resourceId: 'RES-MCH-BORING-PAMA',
     alternativeChosen: 'برون‌سپاری فرزکاری پوسته استاتور به ماشین‌سازی اراک',
+    alternativeChosenEn: 'Outsource Stator Machining to Machine Sazi Arak',
+    baselineAssumption: 'زمان صدور مجوز ترافیکی راهداری و هماهنگی پلیس راهور برای بوژی ۱۶ محوره حداکثر ۲ روز است.',
+    baselineAssumptionEn: 'Highway police nocturnal transit escort permit lead time assumed at ≤ 2 calendar days.',
+    actionExecuted: 'عقد قرارداد الحاقیه، اعزام بوژی و استقرار ۲ ناظر مقیم مپنا پارس با لیزرتراکر در اراک.',
+    actionExecutedEn: 'Subcontract amendment executed, 16-axle bogie mobilized, 2 MAPNA QA inspectors dispatched.',
     predictedDelayDays: 6,
     actualDelayDays: 9,
     predictedCostIRR: 2800000000,
     actualCostIRR: 3350000000,
-    varianceReason: 'تاخیر در صدور مجوز حمل ترافیکی بوژی ۸۰ تنی توسط راهداری در محور تهران-اراک',
-    varianceReasonEn: 'Heavy 80-ton bogie transport road permit delayed by 3 days by highway authority',
+    varianceReason: 'تاخیر در صدور مجوز حمل ترافیکی بوژی ۸۰ تنی توسط راهداری در محور تهران-اراک (+۳ روز انحراف)',
+    varianceReasonEn: 'Heavy 80-ton bogie transport road permit delayed by 3 days by highway authority (+3 days variance)',
+    rootCauseAnalysis: 'عدم ثبت الکترونیکی باربرگ ترافیکی و وابستگی به تاییدیه دستی فرمانداری‌های مسیر عبور.',
+    rootCauseAnalysisEn: 'Manual non-electronic clearance through regional prefecture checkpoints during road repaving.',
     lessonLearned: 'در مدل‌سازی برون‌سپاری قطعات بالای ۵۰ تن، زمان حمل باید حداقل ۵ روز با توزیع لاگ‌نرمال فرض شود.',
     lessonLearnedEn: 'For outsourced parts >50 tons, minimum 5 days transport buffer must be calibrated into model.',
+    ruleOrParameterUpdate: 'HEAVY_LOGISTICS_MIN_BUFFER_DAYS: 2 -> 5 Days (بروزرسانی پارامتر زمان لجستیک فوق‌سنگین در موتور تصمیم)',
+    ruleOrParameterUpdateEn: 'HEAVY_LOGISTICS_MIN_BUFFER_DAYS: 2 -> 5 Days (Lead time parameter auto-calibrated)',
     modelAdjustmentMade: 'افزایش ضریب بافر حمل و نقل سنگین از ۲ به ۵ روز تقویمی در موتور شبیه‌سازی'
   },
   {
@@ -530,14 +746,23 @@ export const INITIAL_LEARNING_RECORDS: LearningRecord[] = [
     decisionRef: 'DEC-20251120-11',
     resourceId: 'RES-VPI-AUTOCLAVE-01',
     alternativeChosen: '۳ شیفت کردن سالن سیم‌پیچی در ایام پیک پاییز',
+    alternativeChosenEn: '3-Shift Operation in Winding Shop during Autumn Peak',
+    baselineAssumption: 'تامین پیوسته گاز طبیعی کارخانه جهت پیش‌گرم محفظه رزین وکیوم VPI با دبی نامی.',
+    baselineAssumptionEn: 'Continuous natural gas supply to pre-heat VPI autoclave at rated flow rate.',
+    actionExecuted: 'افزایش شیفت‌های تکنسین‌ها به صورت ۲۴ ساعته و اجرای چرخه تزریق رزین اپوکسی.',
+    actionExecutedEn: 'Around-the-clock 3-shift technician deployment for epoxy resin impregnation cycle.',
     predictedDelayDays: 2,
     actualDelayDays: 3,
     predictedCostIRR: 1200000000,
     actualCostIRR: 1250000000,
-    varianceReason: 'افت فشار گاز کارخانه در آذرماه و تاخیر در پیش‌گرم کلاوه عایق',
-    varianceReasonEn: 'Winter factory gas pressure curtailment causing 18-hour delay in autoclave pre-heating',
+    varianceReason: 'افت فشار گاز کارخانه در آذرماه و تاخیر در پیش‌گرم کلاوه عایق (+۱ روز انحراف)',
+    varianceReasonEn: 'Winter factory gas pressure curtailment causing 18-hour delay in autoclave pre-heating (+1 day)',
+    rootCauseAnalysis: 'سهمیه‌بندی فصلی گاز صنعتی توسط شرکت ملی گاز و تاخیر در فعال‌سازی مشعل‌های دوگانه‌سوز گازوئیلی.',
+    rootCauseAnalysisEn: 'Seasonal industrial gas curtailment by national utility before dual-fuel burners kicked in.',
     lessonLearned: 'اعمال فیلتر افت انرژی فصلی برای فرآیند پخت رزین VPI در بازه ۱۵ آبان تا ۱۵ بهمن ضروری است.',
     lessonLearnedEn: 'Seasonal thermal energy restriction filter must be activated for VPI from Nov 5 to Feb 5.',
+    ruleOrParameterUpdate: 'VPI_THERMAL_SEASONAL_RESTRICTION_FLAG: True [Nov 5 - Feb 5] (تعدیل راندمان حرارتی کلاوه)',
+    ruleOrParameterUpdateEn: 'VPI_THERMAL_SEASONAL_RESTRICTION_FLAG: True [Nov 5 - Feb 5] (Thermal de-rating applied)',
     modelAdjustmentMade: 'اضافه شدن برچسب محدودیت گاز به پروفایل زمستانه کلاوه VPI'
   }
 ];
@@ -670,6 +895,7 @@ export const initialSapMappings: any[] = [
   },
   {
     tableName: 'VBAK + VBKD',
+    businessObject: 'CustomerContract',
     description: 'Sales Contracts & Billing Milestones',
     cdsView: 'I_SalesContractItem',
     rfcOrBapi: 'BAPI_SALESORDER_GETDETAIL',
@@ -681,16 +907,17 @@ export const initialSapMappings: any[] = [
     transformationLogic: 'Map customer delivery dates, LD penalty terms, and payment release conditions.'
   },
   {
-    tableName: 'FAGLFLEXA + BSEG',
-    description: 'General Ledger Line Items & Receivables',
-    cdsView: 'C_OperationalAccountsPayable',
+    tableName: 'ACDOCA (Universal Journal)',
+    businessObject: 'JournalEntry',
+    description: 'General Ledger Line Items & Financial Receivables',
+    cdsView: 'I_UniversalJournalEntryItem',
     rfcOrBapi: 'BAPI_ACC_DOCUMENT_RECORD',
     canonicalEntity: 'canonical.cash_flow_event',
-    extractionSchedule: 'Daily (Nightly)',
-    freshnessSLA: '< 24 Hours',
+    extractionSchedule: 'Real-time Delta (5 min)',
+    freshnessSLA: '< 15 Minutes',
     module: 'FI / CO',
-    keyFields: ['BELNR', 'GJAHR', 'WRBTR', 'ZUONR'],
-    transformationLogic: 'Compute net cash flow exposure and working capital impacts from delayed billings.'
+    keyFields: ['RBUKRS', 'GJAHR', 'BELNR', 'DOCLN'],
+    transformationLogic: 'Compute net cash flow exposure and working capital financing impacts from delayed billings.'
   }
 ];
 

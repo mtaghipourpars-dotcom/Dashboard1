@@ -8,6 +8,7 @@ import { SimulatorView } from './components/SimulatorView';
 import { SapMappingView } from './components/SapMappingView';
 import { LearningMemoryView } from './components/LearningMemoryView';
 import { ProjectPortfolioView } from './components/ProjectPortfolioView';
+import { MasterSpecView } from './components/MasterSpecView';
 
 import { 
   Language, 
@@ -36,6 +37,7 @@ export function App() {
   
   // Disruption state (defaults to the Golden Scenario)
   const [disruption, setDisruption] = useState<DisruptionInput>(goldenScenarioDisruption);
+  const [costOfCapitalRatePct, setCostOfCapitalRatePct] = useState<number>(24);
   const [overriddenAltId, setOverriddenAltId] = useState<string | null>(null);
 
   // Recompute simulation results deterministically
@@ -46,15 +48,17 @@ export function App() {
       initialOperations,
       initialOrders,
       initialProjects,
-      initialCommitments
+      initialCommitments,
+      costOfCapitalRatePct
     );
-  }, [disruption]);
+  }, [disruption, costOfCapitalRatePct]);
 
   const alternatives: AlternativeOption[] = useMemo(() => {
     const alts = generateAlternatives(
       disruption,
       impactSummary,
-      strategicProfile
+      strategicProfile,
+      costOfCapitalRatePct
     );
 
     if (overriddenAltId) {
@@ -64,14 +68,15 @@ export function App() {
       }));
     }
     return alts;
-  }, [disruption, impactSummary, strategicProfile, overriddenAltId]);
+  }, [disruption, impactSummary, strategicProfile, costOfCapitalRatePct, overriddenAltId]);
 
   const decisionPackage: DecisionPackage = useMemo(() => {
     const pkg = synthesizeDecisionPackage(
       disruption,
       impactSummary,
       alternatives,
-      strategicProfile
+      strategicProfile,
+      costOfCapitalRatePct
     );
     if (overriddenAltId) {
       const chosen = alternatives.find(a => a.id === overriddenAltId);
@@ -115,7 +120,7 @@ export function App() {
   return (
     <div 
       dir={isFa ? 'rtl' : 'ltr'} 
-      className={`min-h-screen bg-slate-950 text-slate-100 selection:bg-cyan-500 selection:text-white ${isFa ? 'font-sans' : 'font-sans'}`}
+      className={`min-h-screen bg-[#06090f] text-slate-100 cockpit-grid selection:bg-cyan-500 selection:text-black ${isFa ? 'font-sans' : 'font-sans'}`}
     >
       {/* Top Application Header / Navigation */}
       <Navbar
@@ -211,21 +216,33 @@ export function App() {
             onNavigateTab={setActiveTab}
           />
         )}
+
+        {activeTab === 'masterspec' && (
+          <MasterSpecView 
+            lang={lang} 
+          />
+        )}
       </main>
 
-      {/* Footer / System Status Bar */}
-      <footer className="border-t border-slate-900 bg-slate-950/90 py-4 text-xs text-slate-500 font-mono">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span>MAPNA Pars Generator Co. • Mission Control v1.0</span>
-            <span>|</span>
-            <span>S/4HANA System of Record Connected</span>
+      {/* Footer / High-Command Status Terminal Bar */}
+      <footer className="border-t border-cyan-500/20 bg-[#070c16]/95 py-4 text-xs text-slate-400 font-mono shadow-2xl backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="font-bold text-slate-200 tracking-wider">MAPNA PARS GENERATOR • MISSION CONTROL v1.0</span>
+            <span className="text-slate-600">|</span>
+            <span className="text-cyan-300">SAP S/4HANA CDS STREAM: LIVE</span>
           </div>
-          <div className="flex items-center gap-4 text-[11px]">
-            <span>Algorithm: Discrete-Event Sim + SimPy Queue</span>
-            <span>Solver: Deterministic Multi-Objective</span>
-            <span>Authority: Executive Board</span>
+          <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-400">
+            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">
+              SOLVER: DETERMINISTIC SIMPY
+            </span>
+            <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">
+              AUDIT: SHA-256 IMMUTABLE
+            </span>
+            <span className="px-2 py-0.5 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-bold">
+              AUTHORITY: EXECUTIVE BOARD
+            </span>
           </div>
         </div>
       </footer>
